@@ -117,7 +117,7 @@ export function PlayScreen({ end }) {
         confetti({
           ticks: 100,
         });
-		setTimeout(()=>{matched.play()},200)
+		setTimeout(()=>{matched.play()},220)
         newState = "matched";
       }
 
