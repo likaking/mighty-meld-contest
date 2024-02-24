@@ -3,6 +3,13 @@ import confetti from "canvas-confetti";
 import * as icons from "react-icons/gi";
 import { Tile } from "./Tile";
 
+import gameSong from "../docs/start.wav";
+import clickedSound from "../docs/click-soundFXX.mp3";
+import matchedSound from "../docs/matchedFX.mp3";
+
+
+ 
+
 export const possibleTileContents = [
   icons.GiHearts,
   icons.GiWaterDrop,
@@ -20,11 +27,15 @@ import {MdDarkMode, MdLightMode, MdOutlineLightMode, MdOutlineDarkMode} from "re
 
 
 export function StartScreen({ start, gameState }) {
-	
+const [playSound, setPlaySound] = useState(false);
+ let gameTune = new Audio(gameSong)	
+ 
+
    return (
-    <div
+    <div className={`pt-[40px] w-[100%] h-[100vh]`} >
+    <div 
       className={
-        "flex flex-col items-center justify-top bg-pink-50 lg:w-[400px] xl:w-[400px] md:w-[400px] sm:w-[400px] h-[400px] m-auto inline-block mt-[120px] xl:mt-[110px] rounded-2xl"
+        "flex flex-col items-center justify-top bg-pink-50 lg:w-[400px] xl:w-[400px] md:w-[400px] sm:w-[400px] h-[400px] m-auto inline-block mt-[80px] md:mt-[80px] rounded-2xl"
       }
     >
       <div className="text-[40px] text-pink-600 font-bold pt-[60px] pb-[20px]">
@@ -41,8 +52,9 @@ export function StartScreen({ start, gameState }) {
           Play
         </button>
       </div>
-      <audio src={"docs/start.wav"} autoplay="true" />
+      <audio src={"docs/start.wav"} autoPlay={true} />
     </div>
+	</div>
   );
 }
 
@@ -50,8 +62,11 @@ export function PlayScreen({ end }) {
   const [tiles, setTiles] = useState(null);
   const [tryCount, setTryCount] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
-  let clickSound = new Audio("docs/click-sound.mp3")
-  let matched = new Audio("docs/matched.mp3")
+  let clickSound = new Audio(clickedSound)
+  let matched = new Audio(matchedSound)
+  
+  
+  clickSound.volume = 0.5
 
   const getTiles = (tileCount) => {
     // Throw error if count is not even.
@@ -102,7 +117,7 @@ export function PlayScreen({ end }) {
         confetti({
           ticks: 100,
         });
-		matched.play()
+		setTimeout(()=>{matched.play()},200)
         newState = "matched";
       }
 
@@ -143,7 +158,7 @@ export function PlayScreen({ end }) {
 	  
       <div className={`flex flex-wrap ${
             !darkMode ? "bg-indigo-50" : "bg-zinc-500"
-          } p-[7px] lg:w-[400px] xl:w-[400px] md:w-[400px] sm:w-[400px] h-[100vw] sm:h-[100vw] md:h-[400px] lg:h-[400px] xl:h-[400px] 2xl:h-[400px] m-auto inline-block mt-[50px] xl:mt-[50px] rounded-2xl`}>
+          } p-[7px] lg:w-[400px] xl:w-[400px] md:w-[400px] sm:w-[400px] h-[100vw] sm:h-[55vw] md:h-[400px] lg:h-[400px] xl:h-[400px] 2xl:h-[400px] m-auto inline-block mt-[50px] xl:mt-[50px] rounded-2xl`}>
         {getTiles(16).map((tile, i) => (
           <Tile key={i} flip={() => flip(i)} {...tile} darkMode={darkMode} setDarkMode={setDarkMode} />
         ))}
