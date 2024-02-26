@@ -52,7 +52,7 @@ const [playSound, setPlaySound] = useState(false);
           Play
         </button>
       </div>
-      <audio src={"docs/start.wav"} autoPlay={true} />
+      <audio src={gameSong} autoPlay={true} />
     </div>
 	</div>
   );
